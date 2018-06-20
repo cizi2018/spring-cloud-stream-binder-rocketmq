@@ -39,10 +39,14 @@ public class RocketMQProducerMessageHandler extends AbstractReplyProducingMessag
         super.doInit();
 
         if (this.producer == null) {
-            String producerGroup = this.configurationProperties.getProducerGroup();
+
+            String producerGroup = producerProperties.getExtension().getProducerGroup();
+
             if (StringUtils.isEmpty(producerGroup)) {
                 producerGroup = ProducerConstants.DEFAULT_PRODUCER_GROUP;
             }
+            Assert.notNull(producerGroup, "The producerGroup is required, you can use 'spring.cloud.stream.rocketmq.bindings.[channelName].producer.producerGroup' to setting");
+
             DefaultMQProducer producer = new DefaultMQProducer(producerGroup);
             producer.setNamesrvAddr(this.configurationProperties.getNamesrvAddr());
             try {
@@ -52,7 +56,7 @@ public class RocketMQProducerMessageHandler extends AbstractReplyProducingMessag
             }
         }
 
-        Assert.notNull(this.producer, "MQProducer is required");
+        Assert.notNull(this.producer, "The MQProducer is required");
     }
 
     @Override

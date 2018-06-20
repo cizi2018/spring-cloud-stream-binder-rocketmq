@@ -25,8 +25,6 @@ public class RocketMQMessageChannelBinder extends AbstractMessageChannelBinder<E
         implements ExtendedPropertiesBinder<MessageChannel, RocketMQConsumerProperties, RocketMQProducerProperties> {
 
 
-//    private MQProducer producer;
-
     private RocketMQBinderConfigurationProperties configurationProperties;
 
     private RocketMQExtendedBindingProperties extendedBindingProperties;
@@ -59,7 +57,6 @@ public class RocketMQMessageChannelBinder extends AbstractMessageChannelBinder<E
 
         RocketMQProducerMessageHandler messageHandler = new RocketMQProducerMessageHandler(destination.getName(), configurationProperties, producerProperties);
         messageHandler.setBeanFactory(this.getBeanFactory());
-//        messageHandler.setProducer(this.producer);
         return messageHandler;
     }
 

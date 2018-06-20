@@ -15,6 +15,8 @@ import org.springframework.cloud.stream.binder.ExtendedConsumerProperties;
 import org.springframework.cloud.stream.provisioning.ConsumerDestination;
 import org.springframework.integration.endpoint.MessageProducerSupport;
 import org.springframework.messaging.Message;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -42,15 +44,26 @@ public class RocketMQMessageDrivenChannelAdapter extends MessageProducerSupport 
         this.configurationProperties = configurationProperties;
 
         this.consumerGroup = consumerGroup;
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup);
-        consumer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
-        consumer.registerMessageListener(new RocketMQMessageListener());
-        this.consumer = consumer;
+
     }
 
 
     @Override
     protected void doStart() {
+
+        String consumerGroup = this.consumerProperties.getExtension().getConsumerGroup();
+
+        if (StringUtils.isEmpty(consumerGroup)) {
+            consumerGroup = this.consumerGroup;
+        }
+
+        Assert.notNull(consumerGroup, "The 'consumerGroup' is required, you can use 'spring.cloud.stream.bindings.[channelName].group' or 'spring.cloud.stream.rocketmq.binder.consumerGroup' to setting");
+
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup);
+        consumer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
+        consumer.registerMessageListener(new RocketMQMessageListener());
+        this.consumer = consumer;
+
 
         try {
             this.consumer.subscribe(this.consumerDestination.getName(), "*");
