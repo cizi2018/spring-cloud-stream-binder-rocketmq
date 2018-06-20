@@ -25,3 +25,10 @@ or
 </dependency>
 
 ```
+
+* binder配置项
+
+    配置项 | 说明 | 默认
+    :---: | :---: | :---:
+    spring.cloud.stream.rocketmq.binder.namesrvAddr | namesrv地址 | 空
+ 
