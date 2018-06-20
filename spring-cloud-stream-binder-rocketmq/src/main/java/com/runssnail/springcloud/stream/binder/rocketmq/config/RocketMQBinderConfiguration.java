@@ -67,7 +67,7 @@ public class RocketMQBinderConfiguration {
     }
 
     @Bean
-    RocketMQMessageChannelBinder kafkaMessageChannelBinder(RocketMQBinderConfigurationProperties configurationProperties,
+    RocketMQMessageChannelBinder rocketMQMessageChannelBinder(RocketMQBinderConfigurationProperties configurationProperties,
                                                            RocketMQTopicProvisioner provisioningProvider) {
 
         RocketMQMessageChannelBinder messageChannelBinder = new RocketMQMessageChannelBinder(
