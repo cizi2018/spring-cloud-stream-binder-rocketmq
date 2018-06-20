@@ -1,6 +1,5 @@
 package com.runssnail.springcloud.stream.binder.rocketmq;
 
-import com.alibaba.rocketmq.client.producer.MQProducer;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQBinderConfigurationProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQConsumerProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQExtendedBindingProperties;
@@ -26,7 +25,7 @@ public class RocketMQMessageChannelBinder extends AbstractMessageChannelBinder<E
         implements ExtendedPropertiesBinder<MessageChannel, RocketMQConsumerProperties, RocketMQProducerProperties> {
 
 
-    private MQProducer producer;
+//    private MQProducer producer;
 
     private RocketMQBinderConfigurationProperties configurationProperties;
 
@@ -35,7 +34,6 @@ public class RocketMQMessageChannelBinder extends AbstractMessageChannelBinder<E
     public RocketMQMessageChannelBinder(RocketMQBinderConfigurationProperties configurationProperties, RocketMQTopicProvisioner provisioningProvider) {
         super(false, headersToMap(configurationProperties), provisioningProvider);
         this.configurationProperties = configurationProperties;
-
     }
 
     private static String[] headersToMap(RocketMQBinderConfigurationProperties configurationProperties) {
@@ -61,7 +59,7 @@ public class RocketMQMessageChannelBinder extends AbstractMessageChannelBinder<E
 
         RocketMQProducerMessageHandler messageHandler = new RocketMQProducerMessageHandler(destination.getName(), configurationProperties, producerProperties);
         messageHandler.setBeanFactory(this.getBeanFactory());
-        messageHandler.setProducer(this.producer);
+//        messageHandler.setProducer(this.producer);
         return messageHandler;
     }
 
@@ -99,11 +97,4 @@ public class RocketMQMessageChannelBinder extends AbstractMessageChannelBinder<E
         this.extendedBindingProperties = extendedBindingProperties;
     }
 
-    public MQProducer getProducer() {
-        return producer;
-    }
-
-    public void setProducer(MQProducer producer) {
-        this.producer = producer;
-    }
 }

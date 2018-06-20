@@ -2,9 +2,11 @@ package com.runssnail.springcloud.stream.binder.rocketmq;
 
 import com.alibaba.rocketmq.client.exception.MQBrokerException;
 import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.client.producer.MQProducer;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.remoting.exception.RemotingException;
+import com.runssnail.springcloud.stream.binder.rocketmq.constant.ProducerConstants;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQBinderConfigurationProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQProducerProperties;
 
@@ -12,6 +14,7 @@ import org.springframework.cloud.stream.binder.ExtendedProducerProperties;
 import org.springframework.integration.handler.AbstractReplyProducingMessageHandler;
 import org.springframework.messaging.Message;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 public class RocketMQProducerMessageHandler extends AbstractReplyProducingMessageHandler {
 
@@ -35,20 +38,21 @@ public class RocketMQProducerMessageHandler extends AbstractReplyProducingMessag
     protected void doInit() {
         super.doInit();
 
+        if (this.producer == null) {
+            String producerGroup = this.configurationProperties.getProducerGroup();
+            if (StringUtils.isEmpty(producerGroup)) {
+                producerGroup = ProducerConstants.DEFAULT_PRODUCER_GROUP;
+            }
+            DefaultMQProducer producer = new DefaultMQProducer(producerGroup);
+            producer.setNamesrvAddr(this.configurationProperties.getNamesrvAddr());
+            try {
+                producer.start();
+            } catch (MQClientException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         Assert.notNull(this.producer, "MQProducer is required");
-//        if (this.producer == null) {
-//            DefaultMQProducer  producer = new DefaultMQProducer("springcloud-binder-rocketmq");
-//            producer.setNamesrvAddr(this.configurationProperties.getNamesrvAddr());
-//            try {
-//                producer.start();
-//            } catch (MQClientException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            this.producer = producer;
-//        }
-
-
     }
 
     @Override

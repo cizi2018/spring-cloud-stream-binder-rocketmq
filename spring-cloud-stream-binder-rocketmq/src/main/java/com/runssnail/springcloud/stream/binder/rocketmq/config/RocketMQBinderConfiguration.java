@@ -1,11 +1,7 @@
 package com.runssnail.springcloud.stream.binder.rocketmq.config;
 
 
-import com.alibaba.rocketmq.client.exception.MQClientException;
-import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
-import com.alibaba.rocketmq.client.producer.MQProducer;
 import com.runssnail.springcloud.stream.binder.rocketmq.RocketMQMessageChannelBinder;
-import com.runssnail.springcloud.stream.binder.rocketmq.constant.ProducerConstants;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQBinderConfigurationProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQExtendedBindingProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.provisioning.RocketMQTopicProvisioner;
@@ -20,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.integration.codec.Codec;
-import org.springframework.util.StringUtils;
 
 @Configuration
 @ConditionalOnMissingBean(Binder.class)
@@ -34,33 +29,33 @@ public class RocketMQBinderConfiguration {
     @Autowired
     private RocketMQExtendedBindingProperties extendedBindingProperties;
 
-    @Autowired
-    private MQProducer producer;
+//    @Autowired
+//    private MQProducer producer;
 
 
-    /**
-     * 可以和应用共享producer，所以这里先判断有没有bean存在
-     *
-     * @param configurationProperties
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean(MQProducer.class)
-    MQProducer createMQProducer(RocketMQBinderConfigurationProperties configurationProperties) {
-
-        String producerGroup = configurationProperties.getProducerGroup();
-        if (StringUtils.isEmpty(producerGroup)) {
-            producerGroup = ProducerConstants.DEFAULT_PRODUCER_GROUP;
-        }
-        DefaultMQProducer producer = new DefaultMQProducer(producerGroup);
-        producer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
-        try {
-            producer.start();
-        } catch (MQClientException e) {
-            throw new RuntimeException(e);
-        }
-        return producer;
-    }
+//    /**
+//     * 可以和应用共享producer，所以这里先判断有没有bean存在
+//     *
+//     * @param configurationProperties
+//     * @return
+//     */
+//    @Bean
+//    @ConditionalOnMissingBean(MQProducer.class)
+//    MQProducer createMQProducer(RocketMQBinderConfigurationProperties configurationProperties) {
+//
+//        String producerGroup = configurationProperties.getProducerGroup();
+//        if (StringUtils.isEmpty(producerGroup)) {
+//            producerGroup = ProducerConstants.DEFAULT_PRODUCER_GROUP;
+//        }
+//        DefaultMQProducer producer = new DefaultMQProducer(producerGroup);
+//        producer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
+//        try {
+//            producer.start();
+//        } catch (MQClientException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return producer;
+//    }
 
     @Bean
     RocketMQBinderConfigurationProperties configurationProperties() {
@@ -79,7 +74,7 @@ public class RocketMQBinderConfiguration {
         RocketMQMessageChannelBinder messageChannelBinder = new RocketMQMessageChannelBinder(
                 configurationProperties, provisioningProvider);
         messageChannelBinder.setExtendedBindingProperties(this.extendedBindingProperties);
-        messageChannelBinder.setProducer(this.producer);
+//        messageChannelBinder.setProducer(this.producer);
 
         messageChannelBinder.setCodec(this.codec);
 
