@@ -18,7 +18,7 @@ or
 ```
 <dependency>
     <groupId>com.runssnail.springcloud</groupId>
-    <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+    <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 

@@ -35,9 +35,17 @@ public class RocketMQBinderConfiguration {
     @Autowired
     private MQProducer producer;
 
+
+    /**
+     * 可以和应用共享producer，所以这里先判断有没有bean存在
+     *
+     * @param configurationProperties
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean(MQProducer.class)
     MQProducer createMQProducer(RocketMQBinderConfigurationProperties configurationProperties) {
+
         DefaultMQProducer producer = new DefaultMQProducer("springcloud-binder-rocketmq");
         producer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
         try {
