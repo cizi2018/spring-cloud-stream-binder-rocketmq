@@ -8,7 +8,20 @@ public class RocketMQBinderConfigurationProperties {
 
     private String[] headers = new String[] {};
 
+    /**
+     * 生产者组名称
+     */
+    private String producerGroup;
+
     private String namesrvAddr;
+
+    public String getProducerGroup() {
+        return producerGroup;
+    }
+
+    public void setProducerGroup(String producerGroup) {
+        this.producerGroup = producerGroup;
+    }
 
     public String getNamesrvAddr() {
         return namesrvAddr;

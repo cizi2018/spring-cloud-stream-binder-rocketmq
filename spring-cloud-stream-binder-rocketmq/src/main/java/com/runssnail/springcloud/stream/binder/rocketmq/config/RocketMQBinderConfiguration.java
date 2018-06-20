@@ -5,6 +5,7 @@ import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.client.producer.MQProducer;
 import com.runssnail.springcloud.stream.binder.rocketmq.RocketMQMessageChannelBinder;
+import com.runssnail.springcloud.stream.binder.rocketmq.constant.ProducerConstants;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQBinderConfigurationProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.properties.RocketMQExtendedBindingProperties;
 import com.runssnail.springcloud.stream.binder.rocketmq.provisioning.RocketMQTopicProvisioner;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.integration.codec.Codec;
+import org.springframework.util.StringUtils;
 
 @Configuration
 @ConditionalOnMissingBean(Binder.class)
@@ -46,7 +48,11 @@ public class RocketMQBinderConfiguration {
     @ConditionalOnMissingBean(MQProducer.class)
     MQProducer createMQProducer(RocketMQBinderConfigurationProperties configurationProperties) {
 
-        DefaultMQProducer producer = new DefaultMQProducer("springcloud-binder-rocketmq");
+        String producerGroup = configurationProperties.getProducerGroup();
+        if (StringUtils.isEmpty(producerGroup)) {
+            producerGroup = ProducerConstants.DEFAULT_PRODUCER_GROUP;
+        }
+        DefaultMQProducer producer = new DefaultMQProducer(producerGroup);
         producer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
         try {
             producer.start();
