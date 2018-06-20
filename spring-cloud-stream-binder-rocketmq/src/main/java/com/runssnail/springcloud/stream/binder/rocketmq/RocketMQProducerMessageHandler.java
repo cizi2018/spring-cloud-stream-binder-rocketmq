@@ -54,6 +54,7 @@ public class RocketMQProducerMessageHandler extends AbstractReplyProducingMessag
             } catch (MQClientException e) {
                 throw new RuntimeException(e);
             }
+            this.producer = producer;
         }
 
         Assert.notNull(this.producer, "The MQProducer is required");

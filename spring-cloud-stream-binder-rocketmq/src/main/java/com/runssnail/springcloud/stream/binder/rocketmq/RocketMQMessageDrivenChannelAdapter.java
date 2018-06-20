@@ -62,15 +62,14 @@ public class RocketMQMessageDrivenChannelAdapter extends MessageProducerSupport 
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup);
         consumer.setNamesrvAddr(configurationProperties.getNamesrvAddr());
         consumer.registerMessageListener(new RocketMQMessageListener());
-        this.consumer = consumer;
-
-
         try {
-            this.consumer.subscribe(this.consumerDestination.getName(), "*");
-            this.consumer.start();
+            consumer.subscribe(this.consumerDestination.getName(), "*");
+            consumer.start();
         } catch (MQClientException e) {
             throw new RuntimeException(e);
         }
+
+        this.consumer = consumer;
 
     }
 
