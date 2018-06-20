@@ -1,5 +1,7 @@
 ### springcloud stream binder for rocketmq
 
+##### <font color="#dd0000">**注意如果broker设置了autoCreateTopicEnable=false，那么请先创建好对应的topic**</font>
+
 * 下载源码并maven install
 
 
