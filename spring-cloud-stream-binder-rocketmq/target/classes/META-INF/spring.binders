@@ -1,0 +1,2 @@
+rocketmq:\
+com.runssnail.demo.springcloud.stream.binder.rocketmq.config.RocketMQBinderConfiguration
