@@ -31,7 +31,7 @@ or
     配置项 | 说明 |
     :---: | :---: |
     spring.cloud.stream.rocketmq.binder.namesrvAddr | namesrv地址，例如：localhost:9876 |
-    spring.cloud.stream.ons.bindings.[channelName].producer.producerGroup | 生产者组名，接入应用必须设置，例如：spring.cloud.stream.ons.bindings.sleuth.producer.producerGroup=zipkin |
-    spring.cloud.stream.ons.bindings.[channelName].consumer.consumerGroup | 消费者组名，zipkin-server必须设置，例如：spring.cloud.stream.ons.bindings.sleuth.consumer.consumerGroup=zipkin |
+    spring.cloud.stream.rocketmq.bindings.[channelName].producer.producerGroup | 生产者组名，接入应用必须设置，例如：spring.cloud.stream.rocketmq.bindings.sleuth.producer.producerGroup=zipkin |
+    spring.cloud.stream.rocketmq.bindings.[channelName].consumer.consumerGroup | 消费者组名，zipkin-server必须设置，例如：spring.cloud.stream.rocketmq.bindings.sleuth.consumer.consumerGroup=zipkin |
      
  
